@@ -26,78 +26,62 @@ SELECT * from animals WHERE weight_kg between 10.4 and 17.3;
 
 HERE SSEBO 
 
-BEGIN; -- Start a transaction
+-- Start a transaction
+BEGIN; 
 
--- Update the "species" column for all rows to 'unspecified'
 UPDATE animals
 SET species = 'unspecified';
 
--- Verify the change
-SELECT * FROM animals; -- View the updated data
+SELECT * FROM animals; 
 
--- Roll back the transaction to revert the changes
 ROLLBACK;
 
--- Verify that the species column went back to the state before the transaction
-SELECT * FROM animals; -- View the original data
-
+-- this one Verify that the species column went back to the state before the transaction
+SELECT * FROM animals; 
 -- End of the script
 
 
-BEGIN; -- Start a transaction
+-- Start a transaction
+BEGIN; 
 
--- Update animals with names ending in 'mon' to 'digimon'
-UPDATE animals
-SET species = 'digimon'
-WHERE name LIKE '%mon';
+-- this one update animals with names ending in 'mon' to 'digimon'
+UPDATE animals SET species = 'digimon' WHERE name LIKE '%mon';
 
--- Update animals with no species already set to 'pokemon'
-UPDATE animals
-SET species = 'pokemon'
-WHERE species IS NULL;
+-- also this one update animals with no species already set to 'pokemon'
+UPDATE animals SET species = 'pokemon' WHERE species IS NULL;
 
--- Verify the changes within the transaction
 SELECT * FROM animals;
 
-COMMIT; -- Commit the transaction
+COMMIT; 
 
--- Verify that changes persist after commit
+-- this one verify that changes persist after commit
 SELECT * FROM animals;
 
 
+-- Start a transaction
+BEGIN; 
 
-BEGIN; -- Start a transaction
-
--- Delete all records in the "animals" table
 DELETE FROM animals;
 
--- Verify that records are deleted within the transaction
 SELECT * FROM animals;
 
-ROLLBACK; -- Roll back the transaction
+ROLLBACK; 
 
-BEGIN; -- Start a transaction
+-- Start a transaction
+BEGIN; 
 
--- Delete all animals born after Jan 1st, 2022
-DELETE FROM animals
-WHERE date_of_birth > '2022-01-01';
+DELETE FROM animals WHERE date_of_birth > '2022-01-01';
 
--- Create a savepoint for the transaction
 SAVEPOINT update_weights;
 
--- Update all animals' weight to be their weight multiplied by -1
-UPDATE animals
-SET weight_kg = weight_kg * -1;
 
--- Rollback to the savepoint
+UPDATE animals SET weight_kg = weight_kg * -1;
+
+
 ROLLBACK TO update_weights;
 
--- Update all animals' weights that are negative to be their weight multiplied by -1
-UPDATE animals
-SET weight_kg = weight_kg * -1
-WHERE weight_kg < 0;
+UPDATE animals SET weight_kg = weight_kg * -1 WHERE weight_kg < 0;
 
--- Commit the transaction
 COMMIT;
 
 
