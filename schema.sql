@@ -54,3 +54,24 @@ DROP TABLE animals;
 
 -- Lastly I renamed the new table to "animals"
 ALTER TABLE animals_new RENAME TO animals;
+
+
+CREATE TABLE vets (
+    id serial PRIMARY KEY,
+    name varchar(255),
+    age integer,
+    date_of_graduation date
+);
+
+CREATE TABLE specializations (
+    vet_id integer REFERENCES vets(id),
+    species_id integer REFERENCES species(id),
+    PRIMARY KEY (vet_id, species_id)
+);
+
+CREATE TABLE visits (
+    vet_id integer REFERENCES vets(id),
+    animal_id integer REFERENCES animals(id),
+    visit_date date,
+    PRIMARY KEY (vet_id, animal_id, visit_date)
+);
