@@ -13,5 +13,4 @@ CREATE TABLE animals (
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.animals
-    OWNER to wazacode;
+ALTER TABLE animals ADD COLUMN species text;
