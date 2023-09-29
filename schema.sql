@@ -11,6 +11,15 @@ CREATE TABLE animals (
     weight_kg decimal, 
     species text );
 
-TABLESPACE pg_default;
-
 ALTER TABLE animals ADD COLUMN species text;
+
+CREATE TABLE owners (
+    id serial PRIMARY KEY,
+    full_name varchar(255),
+    age integer
+);
+
+CREATE TABLE species (
+    id serial PRIMARY KEY,
+    name varchar(255)
+);
