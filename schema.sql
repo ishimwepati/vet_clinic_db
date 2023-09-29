@@ -8,9 +8,9 @@ CREATE TABLE animals (
     date_of_birth date, 
     escape_attempts integer,
     neutered boolean, 
-    weight_kg decimal );
+    weight_kg decimal, 
+    species text );
 
 TABLESPACE pg_default;
 
-ALTER TABLE IF EXISTS public.animals
-    OWNER to wazacode;
+ALTER TABLE animals ADD COLUMN species text;
