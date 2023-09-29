@@ -80,13 +80,13 @@ UPDATE animals SET weight_kg = weight_kg * -1 WHERE weight_kg < 0;
 COMMIT;
 
 
--- Count the total number of animals in the table
+-- Here I count the total number of animals in the table
 SELECT COUNT(*) FROM animals;
 
--- Count the animals with zero escape attempts
+-- Here I count the animals with zero escape attempts
 SELECT COUNT(*) FROM animals WHERE escape_attempts = 0;
 
--- Calculate the average weight of all animals
+-- I calculate the average weight of all animals
 SELECT AVG(weight_kg) FROM animals;
 
 -- Identify whether neutered or not neutered animals have the most escape attempts
