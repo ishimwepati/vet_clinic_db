@@ -33,24 +33,18 @@ Add column species_id which is a foreign key referencing species table
 Add column owner_id which is a foreign key referencing the owners table
 */
 
--- I created a new "animals" table with the structure below :
-CREATE TABLE animals_new (
-    id serial PRIMARY KEY,
-    name text,
-    date_of_birth date,
-    escape_attempts integer,
-    neutered boolean,
-    weight_kg decimal,
-    species_id integer REFERENCES species(id),
-    owner_id integer REFERENCES owners(id)
-);
+-- First, i setted "id" as autoincremented PRIMARY KEY
+ALTER TABLE animals
+ALTER COLUMN id SET GENERATED ALWAYS AS IDENTITY;
 
--- Then I Copied data from the old table to the new one
-INSERT INTO animals_new (name, date_of_birth, escape_attempts, neutered, weight_kg, species_id, owner_id)
-SELECT name, date_of_birth, escape_attempts, neutered, weight_kg, NULL, NULL FROM animals;
+-- Next, I removed the column "species"
+ALTER TABLE animals
+DROP COLUMN species;
 
--- After I Droped the old "animals" table
-DROP TABLE animals;
+-- Then I added column "species_id" as a foreign key referencing "species" table
+ALTER TABLE animals
+ADD COLUMN species_id integer REFERENCES species(id);
 
--- Lastly I renamed the new table to "animals"
-ALTER TABLE animals_new RENAME TO animals;
+-- LAslty I added column "owner_id" as a foreign key referencing "owners" table
+ALTER TABLE animals
+ADD COLUMN owner_id integer REFERENCES owners(id);
