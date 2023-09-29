@@ -23,3 +23,34 @@ CREATE TABLE species (
     id serial PRIMARY KEY,
     name varchar(255)
 );
+
+-- Below are what I did to achieve this :
+/* 
+Modify animals table:
+Make sure that id is set as autoincremented PRIMARY KEY
+Remove column species
+Add column species_id which is a foreign key referencing species table
+Add column owner_id which is a foreign key referencing the owners table
+*/
+
+-- I created a new "animals" table with the structure below :
+CREATE TABLE animals_new (
+    id serial PRIMARY KEY,
+    name text,
+    date_of_birth date,
+    escape_attempts integer,
+    neutered boolean,
+    weight_kg decimal,
+    species_id integer REFERENCES species(id),
+    owner_id integer REFERENCES owners(id)
+);
+
+-- Then I Copied data from the old table to the new one
+INSERT INTO animals_new (name, date_of_birth, escape_attempts, neutered, weight_kg, species_id, owner_id)
+SELECT name, date_of_birth, escape_attempts, neutered, weight_kg, NULL, NULL FROM animals;
+
+-- After I Droped the old "animals" table
+DROP TABLE animals;
+
+-- Lastly I renamed the new table to "animals"
+ALTER TABLE animals_new RENAME TO animals;
