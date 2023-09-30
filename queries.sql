@@ -187,13 +187,14 @@ WHERE spec.species_id IS NULL;
 
 -- Find the specialty that Maisy Smith should consider based on the species she sees the most
 SELECT s.name AS suggested_specialty
-FROM visits v
-JOIN vets vet ON v.vet_id = vet.id
-JOIN animals a ON v.animal_id = a.id
-JOIN specializations spec ON vet.id = spec.vet_id
-JOIN species s ON spec.species_id = s.id
-WHERE vet.name = 'Vet Maisy Smith'
-GROUP BY s.name
-ORDER BY COUNT(*) DESC
-LIMIT 1;
-
+FROM (
+    SELECT a.species_id, COUNT(*) AS visit_count
+    FROM visits v
+    INNER JOIN animals a ON v.animal_id = a.id
+    INNER JOIN vets vt ON v.vet_id = vt.id
+    WHERE vt.name = 'Vet Maisy Smith'
+    GROUP BY a.species_id
+    ORDER BY visit_count DESC
+    LIMIT 1
+) most_visited_species
+JOIN species s ON most_visited_species.species_id = s.id;
