@@ -27,12 +27,13 @@ CREATE TABLE treatment (
     type varchar(255),
     name varchar(255)
 );
-
+/*
 CREATE TABLE invoice_items (
     id serial PRIMARY KEY,
     unit_price decimal,
     quantity int,
     total_price decimal,
     invoice_id int REFERENCES invoices(id),
-    treatment_id int REFERENCES treatment(id)
+    treatment_id int REFERENCES treatment(medical_history_id) -- Corrected reference to medical_history_id
 );
+*/
